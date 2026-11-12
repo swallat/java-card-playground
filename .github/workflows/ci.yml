@@ -61,14 +61,14 @@ jobs:
 
       - name: Testreports hochladen
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: surefire-reports
           path: target/surefire-reports/
           if-no-files-found: ignore
 
       - name: JAR hochladen
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: jar
           path: target/*.jar
