@@ -44,6 +44,7 @@ Nach dem Lauf steht der Trace auch in `target/surefire-reports/*-output.txt`.
 | `src/test/java/playground/perso/DataPreparation.java` | spielt HSM und Personalisierungsmaschine |
 | `src/test/java/playground/perso/IssuerHost.java` | spielt die Autorisierungszentrale nach der Ausgabe |
 | `src/test/java/playground/pqc` | PQC-**Simulation** (ML-DSA, ML-KEM via BouncyCastle), nicht CAP-fähig |
+| `src/test/java/playground/gp` | GlobalPlatform-**Simulation**: Issuer Security Domain, SCP03, GET/SET STATUS |
 
 Applet-Code (`src/main`) wird mit Java 7 übersetzt, weil der spätere CAP-Converter das verlangt.
 Testcode (`src/test`) ist Host-Code und nutzt Java 11.
@@ -60,6 +61,7 @@ Testcode (`src/test`) ist Host-Code und nutzt Java 11.
 | [docs/05-schluessel-und-signatur.md](docs/05-schluessel-und-signatur.md) | On-Card-Schlüsselerzeugung, ECDSA-Signatur, Off-Card-Prüfung, Nonce-Schwäche des Simulators |
 | [docs/06-pqc-ml-dsa-ml-kem.md](docs/06-pqc-ml-dsa-ml-kem.md) | PQC-Variante: ML-DSA-65, ML-KEM-768, Extended Length APDUs, Auswirkungen auf Karten |
 | [docs/07-transaktionen.md](docs/07-transaktionen.md) | Speicherarten, Tearing, JCRE-Transaktionen, Undo-Journal, atomares `arrayCopy` |
+| [docs/08-globalplatform.md](docs/08-globalplatform.md) | Security Domains, Privilegien, Lebenszyklus, SCP03-Handshake und MAC-Kette |
 | [docs/hintergrund-standards-und-plattformen.md](docs/hintergrund-standards-und-plattformen.md) | ISO 7816 / EMV / girocard, Karten-Betriebssysteme, Java Card vs. nativ |
 
 ## Aufgabenzettel
@@ -84,6 +86,7 @@ mise exec -- mvn test -Dtest='Uebung0*Aufgaben'
 | [aufgaben/uebung-05-signatur.md](aufgaben/uebung-05-signatur.md) | Übung 3 – On-Card-Schlüssel und Signatur |
 | [aufgaben/uebung-06-pqc.md](aufgaben/uebung-06-pqc.md) | Übung 3, Variante 2 – PQC |
 | [aufgaben/uebung-07-transaktionen.md](aufgaben/uebung-07-transaktionen.md) | Übung 4 – Speicherarten und Transaktionen |
+| [aufgaben/uebung-08-globalplatform.md](aufgaben/uebung-08-globalplatform.md) | GlobalPlatform – Security Domains, Lebenszyklus, SCP03 |
 
 ## Grenzen des Simulators
 
@@ -108,6 +111,5 @@ einzige Signatur verrät den privaten Schlüssel. Details und Beweis in
 
 ## Ausblick
 
-- GlobalPlatform: Security Domains, Lebenszyklus, SCP03
 - Echte Karten: CAP-Build mit [ant-javacard](https://github.com/martinpaljak/ant-javacard),
   Laden mit [GlobalPlatformPro](https://github.com/martinpaljak/GlobalPlatformPro)

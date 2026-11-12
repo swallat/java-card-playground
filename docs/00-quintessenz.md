@@ -147,10 +147,31 @@ verlinkten Dokumenten, Aufgaben unter [`aufgaben/`](../aufgaben/).
 
 ---
 
+## GlobalPlatform → [08-globalplatform.md](08-globalplatform.md)
+
+1. **Java Card regelt das Laufen, GlobalPlatform das Verwalten:** laden, installieren,
+   personalisieren, sperren, löschen.
+2. **Issuer Security Domain** = Card Manager des Herausgebers (AID `A0 00 00 01 51 00 00 00`)
+   mit Schlüsselsatz K-ENC/K-MAC/K-DEK. **SSDs** trennen Zuständigkeiten, **Privilegien** regeln
+   Rechte (z. B. `9E`), **DAP** sichert die Herkunft von Applet-Code.
+3. **Lebenszyklus = Prozess:** OP_READY → INITIALIZED → SECURED ⇄ CARD_LOCKED → TERMINATED
+   (endgültig). Rückwärts geht nichts.
+4. **SCP03:** INITIALIZE UPDATE / EXTERNAL AUTHENTICATE mit Challenges beider Seiten,
+   Sitzungsschlüssel per KDF (SP 800-108, AES-CMAC), Kryptogramme in **beide** Richtungen,
+   danach MAC-Kette. Ein MAC-Fehler beendet die Sitzung. Das löst Replay und Umsortieren.
+5. **Die ISD-Schlüssel sind die Kronjuwelen** des Kartenbestands. Entwicklerkarten haben
+   bekannte Testschlüssel, der erste Schritt ist der Schlüsselwechsel.
+
+> GlobalPlatform macht die Karte verwaltbar: Security Domains mit Privilegien, ein
+> Lebenszyklus, der die Prozessschritte abbildet, und SCP03 als gegenseitig authentisierter,
+> MAC-verketteter Kanal für jede Verwaltungsoperation.
+
+---
+
 ## Querschnitt: Grenzen des Simulators
 
 - bildet Logik ab, keine physische Sicherheit
-- kein CAP, kein GP Card Manager, kein echter SCP03
+- kein CAP, kein GP Card Manager, kein echter SCP03 (GP hier als Protokoll-Simulation)
 - **Zufall kaputt:** gleicher erster Schlüssel auf jeder „Karte“, Nonce = privater Schlüssel
 - PQC nur als Protokoll-Simulation mit externer Bibliothek
 - **Transaktionen ohne Wirkung:** kein Journal, kein Rollback, Commit-Kapazität ist ein Platzhalter
