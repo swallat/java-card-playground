@@ -135,8 +135,14 @@ Copyright 2026 Sebastian Wallat
 
 | Teil | Lizenz |
 |---|---|
-| Code: `src/`, `pom.xml`, `mise.toml`, `.github/` | [Apache License 2.0](LICENSE) |
+| Code: `src/`, `pom.xml`, `mise.toml`, `.github/` | [EUPL-1.2](LICENSE) (European Union Public Licence) |
 | Dokumentation und Aufgaben: alle `*.md`, `docs/`, `aufgaben/` | [Creative Commons Namensnennung 4.0 International (CC BY 4.0)](LICENSE-CC-BY-4.0.txt) |
+
+**EUPL kurz gefasst:** Die Nutzung ist frei, auch kommerziell und intern. Wer eine veränderte
+Fassung weitergibt oder öffentlich als Dienst anbietet, muss die Änderungen unter der EUPL
+veröffentlichen. Alle von der EU-Kommission genehmigten Sprachfassungen sind gleichwertig
+(Art. 13 EUPL). `LICENSE` enthält den englischen Text, die amtliche deutsche Fassung steht im
+[Durchführungsbeschluss (EU) 2017/863](https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:32017D0863).
 
 Abhängigkeiten (nicht im Repo enthalten, werden von Maven geladen): jCardSim (`com.klinec:jcardsim`,
 Apache 2.0), BouncyCastle (MIT-artige Bouncy-Castle-Lizenz), JUnit 4 (EPL 1.0, nur Tests).
