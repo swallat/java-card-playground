@@ -19,7 +19,7 @@ jobs:
     name: Build und Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Gleiche Toolchain wie lokal: JDK und Maven aus mise.toml
       - uses: jdx/mise-action@v2
@@ -81,7 +81,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: actions/download-artifact@v8
         with:
