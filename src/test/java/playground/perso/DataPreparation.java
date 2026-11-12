@@ -22,11 +22,13 @@ public class DataPreparation {
     private static final byte[] KMC_ENC = hex("40 41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F");
     private static final byte[] KMC_MAC = hex("50 51 52 53 54 55 56 57 58 59 5A 5B 5C 5D 5E 5F");
 
+    private final byte[] serial;
     private final byte[] kEnc;
     private final byte[] kMac;
 
     /** Phase 3: Die Maschine hat die Seriennummer gelesen und laesst das HSM die Kartenschluessel ableiten. */
     public DataPreparation(byte[] cardSerial) {
+        this.serial = cardSerial.clone();
         this.kEnc = deriveCardKey(KMC_ENC, cardSerial);
         this.kMac = deriveCardKey(KMC_MAC, cardSerial);
     }
@@ -56,12 +58,27 @@ public class DataPreparation {
 
     /** PIN-Block [Laenge][PIN][00...] (16 Bytes), mit K_ENC verschluesselt. */
     public CommandAPDU storePin(String pinDigits) {
+        byte[] cryptogram = aes("AES/CBC/NoPadding", Cipher.ENCRYPT_MODE, kEnc, new byte[16], pinBlock(pinDigits));
+        return storeData(PersoApplet.TAG_PIN, cryptogram);
+    }
+
+    /**
+     * K_SCRIPT (Generation 1) fuer diese Karte, unter K_ENC verschluesselt (Key Wrapping).
+     * Die Autorisierungszentrale kann ihn spaeter jederzeit aus KMC_SCRIPT neu ableiten.
+     */
+    public CommandAPDU storeScriptKey() {
+        byte[] kScript = IssuerHost.deriveScriptKey(serial, 1);
+        byte[] cryptogram = aes("AES/CBC/NoPadding", Cipher.ENCRYPT_MODE, kEnc, new byte[16], kScript);
+        return storeData(PersoApplet.TAG_SCRIPT_KEY, cryptogram);
+    }
+
+    /** Vereinfachter PIN-Block: [Laenge][PIN-Ziffern ASCII][00...], 16 Bytes. */
+    static byte[] pinBlock(String pinDigits) {
         byte[] p = pinDigits.getBytes(StandardCharsets.US_ASCII);
         byte[] block = new byte[16];
         block[0] = (byte) p.length;
         System.arraycopy(p, 0, block, 1, p.length);
-        byte[] cryptogram = aes("AES/CBC/NoPadding", Cipher.ENCRYPT_MODE, kEnc, new byte[16], block);
-        return storeData(PersoApplet.TAG_PIN, cryptogram);
+        return block;
     }
 
     /** Name ist nicht geheim: Klartext, aber mit MAC gegen Manipulation. */
@@ -86,7 +103,7 @@ public class DataPreparation {
     }
 
     /** AES-CBC-MAC mit ISO-9797-1-Padding Methode 2 (passt zu ALG_AES_MAC_128_NOPAD auf der Karte). */
-    private static byte[] cbcMac(byte[] key, byte[] msg) {
+    static byte[] cbcMac(byte[] key, byte[] msg) {
         int padded = (msg.length / 16 + 1) * 16;
         byte[] in = Arrays.copyOf(msg, padded);
         in[msg.length] = (byte) 0x80;
@@ -94,7 +111,7 @@ public class DataPreparation {
         return Arrays.copyOfRange(ct, ct.length - 16, ct.length);
     }
 
-    private static byte[] aes(String transformation, int mode, byte[] key, byte[] iv, byte[] data) {
+    static byte[] aes(String transformation, int mode, byte[] key, byte[] iv, byte[] data) {
         try {
             Cipher c = Cipher.getInstance(transformation);
             SecretKeySpec k = new SecretKeySpec(key, "AES");

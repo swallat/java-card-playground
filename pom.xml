@@ -13,6 +13,10 @@
     <!-- Java Card 3.0.5 Classic: Applet-Code ist Java-6/7-Subset -->
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
+    <!-- Tests sind Host-Code (Terminal-Seite) und duerfen modernes Java nutzen.
+         Wichtig fuer IntelliJ: Mit "-release 7" ist javax.smartcardio nicht sichtbar. -->
+    <maven.compiler.testSource>11</maven.compiler.testSource>
+    <maven.compiler.testTarget>11</maven.compiler.testTarget>
   </properties>
 
   <dependencies>

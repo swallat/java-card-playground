@@ -37,6 +37,7 @@ public class PersoAppletTest {
         System.out.println("== Phase 3: STORE DATA ==");
         assertEquals(0x9000, card.send(dp.storePin(pin)).getSW());
         assertEquals(0x9000, card.send(dp.storeHolder(name)).getSW());
+        assertEquals(0x9000, card.send(dp.storeScriptKey()).getSW());
         assertEquals(0x9000, card.send(dp.endPerso()).getSW());
     }
 
