@@ -1,9 +1,9 @@
 package playground.loesungen.uebung06;
 
 import org.bouncycastle.crypto.SecretWithEncapsulation;
-import org.bouncycastle.pqc.crypto.mlkem.MLKEMGenerator;
-import org.bouncycastle.pqc.crypto.mlkem.MLKEMParameters;
-import org.bouncycastle.pqc.crypto.mlkem.MLKEMPublicKeyParameters;
+import org.bouncycastle.crypto.kems.MLKEMGenerator;
+import org.bouncycastle.crypto.params.MLKEMParameters;
+import org.bouncycastle.crypto.params.MLKEMPublicKeyParameters;
 import org.junit.Before;
 import org.junit.Test;
 import playground.aufgaben.Pruefe;

@@ -1,12 +1,12 @@
 package playground.pqc;
 
 import org.bouncycastle.crypto.SecretWithEncapsulation;
-import org.bouncycastle.pqc.crypto.mldsa.MLDSAParameters;
-import org.bouncycastle.pqc.crypto.mldsa.MLDSAPublicKeyParameters;
-import org.bouncycastle.pqc.crypto.mldsa.MLDSASigner;
-import org.bouncycastle.pqc.crypto.mlkem.MLKEMGenerator;
-import org.bouncycastle.pqc.crypto.mlkem.MLKEMParameters;
-import org.bouncycastle.pqc.crypto.mlkem.MLKEMPublicKeyParameters;
+import org.bouncycastle.crypto.kems.MLKEMGenerator;
+import org.bouncycastle.crypto.params.MLDSAParameters;
+import org.bouncycastle.crypto.params.MLDSAPublicKeyParameters;
+import org.bouncycastle.crypto.params.MLKEMParameters;
+import org.bouncycastle.crypto.params.MLKEMPublicKeyParameters;
+import org.bouncycastle.crypto.signers.MLDSASigner;
 import org.junit.Before;
 import org.junit.Test;
 import playground.support.Card;

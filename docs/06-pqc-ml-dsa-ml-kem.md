@@ -11,7 +11,8 @@ bieten es über eigene Schnittstellen an. Einen Standard dafür gab es bei der R
 (12.11.2026) nicht. Im JDK sind ML-KEM/ML-DSA erst ab Java 24 enthalten (JEP 496/497).
 
 Diese Variante ist deshalb eine **Protokoll-Simulation**: Die „Karte“ rechnet mit
-BouncyCastle 1.80 (finale FIPS 203/204). Der Code liegt bewusst unter `src/test`, weil er
+BouncyCastle 1.86 (finale FIPS 203/204; seit 1.86 liegen ML-DSA/ML-KEM in den regulären
+Paketen `org.bouncycastle.crypto.*` statt unter `org.bouncycastle.pqc.crypto.*`). Der Code liegt bewusst unter `src/test`, weil er
 **nicht CAP-konvertierbar** ist. Realistisch ist die **APDU-Seite**: Größen, Extended
 Length, Kommandoabläufe.
 
