@@ -129,6 +129,23 @@ einzige Signatur verrät den privaten Schlüssel. Details und Beweis in
 
 Nicht in der CI: der CAP-Build für echte Karten (braucht das Oracle Java Card SDK).
 
+## Lizenz
+
+Copyright 2026 Sebastian Wallat
+
+| Teil | Lizenz |
+|---|---|
+| Code: `src/`, `pom.xml`, `mise.toml`, `.github/` | [Apache License 2.0](LICENSE) |
+| Dokumentation und Aufgaben: alle `*.md`, `docs/`, `aufgaben/` | [Creative Commons Namensnennung 4.0 International (CC BY 4.0)](LICENSE-CC-BY-4.0.txt) |
+
+Abhängigkeiten (nicht im Repo enthalten, werden von Maven geladen): jCardSim (`com.klinec:jcardsim`,
+Apache 2.0), BouncyCastle (MIT-artige Bouncy-Castle-Lizenz), JUnit 4 (EPL 1.0, nur Tests).
+Die verwendeten GlobalPlatform-Testschlüssel (`40…4F`) und die NIST-P-256-Kurvenparameter sind
+öffentlich bekannte Standardwerte.
+
+Java und Java Card sind Marken von Oracle. GlobalPlatform ist eine Marke der GlobalPlatform Inc.
+Dieses Projekt steht mit keinem der Markeninhaber in Verbindung.
+
 ## Ausblick
 
 - Echte Karten: CAP-Build mit [ant-javacard](https://github.com/martinpaljak/ant-javacard),

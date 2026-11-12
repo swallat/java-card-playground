@@ -89,7 +89,7 @@ jobs:
           path: dist
 
       - name: Doku-Paket bauen
-        run: zip -r dist/java-card-playground-doku.zip README.md apdu-cheatsheet.md docs aufgaben
+        run: zip -r dist/java-card-playground-doku.zip README.md apdu-cheatsheet.md docs aufgaben LICENSE LICENSE-CC-BY-4.0.txt
 
       - name: GitHub Release anlegen
         env:
