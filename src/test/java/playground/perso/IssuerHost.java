@@ -54,8 +54,13 @@ public class IssuerHost {
     }
 
     /** Fuer Tests: Zaehlerstand gezielt setzen (z. B. veralteter Host). */
-    void setCounter(int value) {
+    public void setCounter(int value) {
         counter = value;
+    }
+
+    /** 84 1E 00 00: Anwendung sperren (Aufgabenzettel Issuer Scripts, Aufgabe 4). Nutzdaten: 16 Null-Bytes. */
+    public CommandAPDU applicationBlock() {
+        return script(0x1E, 0x00, 0x00, new byte[16]);
     }
 
     /** Baut 84 INS P1 P2 Lc [Zaehler || ENC_S_ENC(geheim) || MAC_S_MAC(Header || Zaehler || Kryptogramm)] */

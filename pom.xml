@@ -26,6 +26,14 @@
       <artifactId>jcardsim</artifactId>
       <version>3.0.6.0</version>
     </dependency>
+    <!-- Nur fuer die PQC-Protokoll-Simulation (src/test/.../pqc): ML-DSA (FIPS 204), ML-KEM (FIPS 203).
+         Java Card 3.0.5 hat dafuer keine API; echte Karten implementieren PQC im OS-Kern. -->
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk18on</artifactId>
+      <version>1.80</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

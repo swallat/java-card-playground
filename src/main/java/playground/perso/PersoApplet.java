@@ -50,6 +50,7 @@ public class PersoApplet extends Applet {
     private static final byte INS_GET_HOLDER = (byte) 0x12;
     private static final byte INS_SCRIPT_CHANGE_PIN = (byte) 0x24;  // ISO: CHANGE REFERENCE DATA
     private static final byte INS_SCRIPT_PUT_KEY = (byte) 0xD8;     // GlobalPlatform: PUT KEY
+    private static final byte INS_SCRIPT_APPLICATION_BLOCK = (byte) 0x1E;  // Aufgabenzettel Issuer Scripts, Aufgabe 4
 
     private static final byte CLA_SECURE_MESSAGING = (byte) 0x84;
     private static final short SW_SM_DATA_INCORRECT = (short) 0x6988; // ISO 7816-4: SM-Daten falsch
@@ -59,6 +60,7 @@ public class PersoApplet extends Applet {
 
     private static final byte STATE_PREPERSO = 0x01;
     private static final byte STATE_PERSONALIZED = 0x0F;
+    private static final byte STATE_BLOCKED = 0x3F;      // Aufgabenzettel Issuer Scripts, Aufgabe 4
 
     private static final short SERIAL_LEN = 8;
     private static final short BLOCK = 16;  // AES-Blockgroesse = MAC-Laenge
@@ -145,7 +147,8 @@ public class PersoApplet extends Applet {
             case INS_VERIFY:     verify(apdu); break;
             case INS_GET_HOLDER: getHolder(apdu); break;
             case INS_SCRIPT_CHANGE_PIN:
-            case INS_SCRIPT_PUT_KEY: issuerScript(apdu); break;
+            case INS_SCRIPT_PUT_KEY:
+            case INS_SCRIPT_APPLICATION_BLOCK: issuerScript(apdu); break;
             default: ISOException.throwIt(ISO7816.SW_INS_NOT_SUPPORTED);
         }
     }
@@ -269,9 +272,11 @@ public class PersoApplet extends Applet {
      * Daten: Zaehler (2) || Kryptogramm (16) || MAC (16)
      */
     private void issuerScript(APDU apdu) {
+        // >>> AUFGABE 4 (Issuer Scripts, Teil 2): Skripte sollen auch im Zustand STATE_BLOCKED funktionieren
         if (state != STATE_PERSONALIZED) {
             ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED); // vor der Ausgabe gibt es keine Skripte
         }
+        // <<< AUFGABE 4
         byte[] buf = apdu.getBuffer();
         if (buf[ISO7816.OFFSET_CLA] != CLA_SECURE_MESSAGING) {
             ISOException.throwIt(ISO7816.SW_CLA_NOT_SUPPORTED); // ohne Secure Messaging: nein
@@ -315,6 +320,12 @@ public class PersoApplet extends Applet {
                 ISOException.throwIt(ISO7816.SW_WRONG_DATA);
             }
             pin.update(scratch, (short) 1, pinLen); // neue PIN, Fehlbedienungszaehler wieder voll
+        } else if (buf[ISO7816.OFFSET_INS] == INS_SCRIPT_APPLICATION_BLOCK) {
+            Util.arrayFillNonAtomic(scratch, (short) 0, (short) scratch.length, (byte) 0);
+            // >>> AUFGABE 4 (Issuer Scripts, Teil 1): Anwendung sperren, also den Zustand auf STATE_BLOCKED setzen.
+            //     Diese Zeile dann entfernen:
+            ISOException.throwIt(ISO7816.SW_FUNC_NOT_SUPPORTED);
+            // <<< AUFGABE 4
         } else {
             byte newVersion = buf[ISO7816.OFFSET_P1];
             if (newVersion <= scriptKeyVersion) {   // keine Rueckkehr zu alten Schluesselgenerationen

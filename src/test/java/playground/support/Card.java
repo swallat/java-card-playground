@@ -13,6 +13,8 @@ public class Card {
     public final CardSimulator sim = new CardSimulator();
     private final AID aid;
     private final byte[] aidBytes;
+    /** Anzahl gesendeter APDUs (zum Vergleich Extended Length vs. Chaining). */
+    public int apduCount;
 
     public Card(String aidHex, Class<? extends Applet> clazz) {
         this(aidHex, clazz, new byte[0]);
@@ -50,11 +52,65 @@ public class Card {
     }
 
     public ResponseAPDU send(CommandAPDU c) {
-        System.out.println("  --> " + hex(c.getBytes()));
+        apduCount++;
+        System.out.println("  --> " + abbreviate(c.getBytes()));
         ResponseAPDU r = sim.transmitCommand(c);
-        System.out.println("  <-- " + (r.getData().length > 0 ? hex(r.getData()) + " " : "")
+        System.out.println("  <-- " + (r.getData().length > 0 ? abbreviate(r.getData()) + " " : "")
                 + String.format("SW=%04X", r.getSW()));
         return r;
+    }
+
+    /**
+     * Nur Short-APDUs (fuer Leser/Strecken ohne Extended Length), ISO 7816-4:
+     *  - Eingabe > 255 Bytes: Command Chaining, alle Teile ausser dem letzten mit CLA | 0x10
+     *  - Antwort > 256 Bytes: Karte meldet 61xx, Host holt den Rest mit GET RESPONSE (00 C0 00 00 Le)
+     * Liefert die zusammengesetzte Antwort mit dem Statuswort des letzten APDUs.
+     */
+    public ResponseAPDU sendShortApdusOnly(int cla, int ins, int p1, int p2, byte[] data) {
+        return sendShortApdusOnly(cla, ins, p1, p2, data, 255);
+    }
+
+    /** Wie oben, aber mit waehlbarer Teilgroesse fuer Command Chaining (1..255). */
+    public ResponseAPDU sendShortApdusOnly(int cla, int ins, int p1, int p2, byte[] data, int chunkSize) {
+        ResponseAPDU r;
+        if (data == null || data.length == 0) {
+            r = send(new CommandAPDU(cla, ins, p1, p2, 256));
+        } else {
+            int off = 0;
+            while (true) {
+                int n = Math.min(chunkSize, data.length - off);
+                byte[] part = java.util.Arrays.copyOfRange(data, off, off + n);
+                off += n;
+                if (off < data.length) {
+                    r = send(new CommandAPDU(cla | 0x10, ins, p1, p2, part));   // "es kommt noch mehr"
+                    if (r.getSW() != 0x9000) {
+                        return r;
+                    }
+                } else {
+                    r = send(new CommandAPDU(cla, ins, p1, p2, part, 256));     // letzter Teil, Le = 256
+                    break;
+                }
+            }
+        }
+        java.io.ByteArrayOutputStream all = new java.io.ByteArrayOutputStream();
+        all.write(r.getData(), 0, r.getData().length);
+        while (r.getSW1() == 0x61) {
+            int le = r.getSW2() == 0 ? 256 : r.getSW2();
+            r = send(new CommandAPDU(0x00, 0xC0, 0x00, 0x00, le));             // GET RESPONSE
+            all.write(r.getData(), 0, r.getData().length);
+        }
+        all.write(r.getSW1());
+        all.write(r.getSW2());
+        return new ResponseAPDU(all.toByteArray());
+    }
+
+    /** Lange APDUs (z. B. PQC) gekuerzt ausgeben: Anfang ... (Laenge) ... Ende. */
+    static String abbreviate(byte[] b) {
+        if (b.length <= 80) {
+            return hex(b);
+        }
+        return hex(java.util.Arrays.copyOfRange(b, 0, 24)) + " ... [" + b.length + " Bytes] ... "
+                + hex(java.util.Arrays.copyOfRange(b, b.length - 8, b.length));
     }
 
     /** Case 1: kein Lc/Data, kein Le (z. B. VERIFY-Status, reine Steuerbefehle). */
