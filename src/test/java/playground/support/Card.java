@@ -15,13 +15,33 @@ public class Card {
     private final byte[] aidBytes;
 
     public Card(String aidHex, Class<? extends Applet> clazz) {
+        this(aidHex, clazz, new byte[0]);
+    }
+
+    /**
+     * Installiert das Applet mit Install-Parametern im GlobalPlatform-Format, so wie
+     * INSTALL [for install] sie an Applet.install() uebergibt:
+     *   [Laenge][Instanz-AID] [Laenge][Privileges] [Laenge][Applet-spezifische Parameter]
+     */
+    public Card(String aidHex, Class<? extends Applet> clazz, byte[] appletParams) {
         this.aid = AIDUtil.create(aidHex);
-        // Install-Parameter: [AID-Laenge][AID] - genau das uebergibt GlobalPlatform bei INSTALL
         this.aidBytes = hex(aidHex);
-        byte[] params = new byte[aidBytes.length + 1];
-        params[0] = (byte) aidBytes.length;
-        System.arraycopy(aidBytes, 0, params, 1, aidBytes.length);
+        byte[] privileges = {0x00};
+        byte[] params = new byte[3 + aidBytes.length + privileges.length + appletParams.length];
+        int o = 0;
+        params[o++] = (byte) aidBytes.length;
+        System.arraycopy(aidBytes, 0, params, o, aidBytes.length); o += aidBytes.length;
+        params[o++] = (byte) privileges.length;
+        System.arraycopy(privileges, 0, params, o, privileges.length); o += privileges.length;
+        params[o++] = (byte) appletParams.length;
+        System.arraycopy(appletParams, 0, params, o, appletParams.length);
         sim.installApplet(aid, clazz, params, (short) 0, (byte) params.length);
+    }
+
+    /** Simuliert "Karte raus und wieder rein": RAM/transiente Daten weg, EEPROM bleibt. */
+    public void reset() {
+        System.out.println("  --- RESET (Karte aus dem Feld gezogen) ---");
+        sim.reset();
     }
 
     public ResponseAPDU select() {
