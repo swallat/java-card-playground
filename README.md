@@ -39,6 +39,7 @@ Nach dem Lauf steht der Trace auch in `target/surefire-reports/*-output.txt`.
 | `src/main/java/playground/pin` | Übung 2: PIN-Prüfung mit Fehlbedienungszähler |
 | `src/main/java/playground/perso` | Zwischenübung: Personalisierung und Issuer Scripts (K_SCRIPT) |
 | `src/main/java/playground/sign` | Übung 3: ECC-P-256-Schlüsselpaar auf der Karte, ECDSA-Signatur |
+| `src/main/java/playground/tx` | Übung 4: Speicherarten, Tearing, Transaktionen, Journal, atomares Kopieren |
 | `src/test/java/playground/support/Card.java` | Testhelfer: Simulator, Installation, APDU-Trace |
 | `src/test/java/playground/perso/DataPreparation.java` | spielt HSM und Personalisierungsmaschine |
 | `src/test/java/playground/perso/IssuerHost.java` | spielt die Autorisierungszentrale nach der Ausgabe |
@@ -58,6 +59,7 @@ Testcode (`src/test`) ist Host-Code und nutzt Java 11.
 | [docs/04-issuer-scripts.md](docs/04-issuer-scripts.md) | Verwaltung nach der Ausgabe mit K_SCRIPT, Replay-Schutz, Schlüsselwechsel |
 | [docs/05-schluessel-und-signatur.md](docs/05-schluessel-und-signatur.md) | On-Card-Schlüsselerzeugung, ECDSA-Signatur, Off-Card-Prüfung, Nonce-Schwäche des Simulators |
 | [docs/06-pqc-ml-dsa-ml-kem.md](docs/06-pqc-ml-dsa-ml-kem.md) | PQC-Variante: ML-DSA-65, ML-KEM-768, Extended Length APDUs, Auswirkungen auf Karten |
+| [docs/07-transaktionen.md](docs/07-transaktionen.md) | Speicherarten, Tearing, JCRE-Transaktionen, Undo-Journal, atomares `arrayCopy` |
 | [docs/hintergrund-standards-und-plattformen.md](docs/hintergrund-standards-und-plattformen.md) | ISO 7816 / EMV / girocard, Karten-Betriebssysteme, Java Card vs. nativ |
 
 ## Aufgabenzettel
@@ -81,6 +83,7 @@ mise exec -- mvn test -Dtest='Uebung0*Aufgaben'
 | [aufgaben/uebung-04-issuer-scripts.md](aufgaben/uebung-04-issuer-scripts.md) | Zwischenübung – Issuer Scripts |
 | [aufgaben/uebung-05-signatur.md](aufgaben/uebung-05-signatur.md) | Übung 3 – On-Card-Schlüssel und Signatur |
 | [aufgaben/uebung-06-pqc.md](aufgaben/uebung-06-pqc.md) | Übung 3, Variante 2 – PQC |
+| [aufgaben/uebung-07-transaktionen.md](aufgaben/uebung-07-transaktionen.md) | Übung 4 – Speicherarten und Transaktionen |
 
 ## Grenzen des Simulators
 
@@ -88,6 +91,11 @@ jCardSim bildet die **Logik** ab (APDUs, Statuswörter, persistent vs. transient
 aber nichts von der physischen Sicherheit einer echten Karte (Speicherverschlüsselung,
 Sensoren, Seitenkanalschutz). Es gibt keine CAP-Konvertierung, keinen GlobalPlatform
 Card Manager, keine Security Domains und keinen echten Secure Channel (SCP03).
+
+**Transaktionen ohne Wirkung:** `beginTransaction`/`commitTransaction`/`abortTransaction`
+zählen in jCardSim nur die Verschachtelungstiefe. Es gibt kein Journal und keinen Rollback,
+und die Commit-Kapazität ist ein Platzhalter (32767). Details in
+[docs/07-transaktionen.md](docs/07-transaktionen.md).
 
 Weitere beobachtete Abweichungen: jCardSim **ignoriert Le** bei `setOutgoingAndSend` (eine
 echte Karte liefert z. B. `6C0A`) und antwortet auf SELECT einer unbekannten AID mit `6999`
@@ -101,6 +109,5 @@ einzige Signatur verrät den privaten Schlüssel. Details und Beweis in
 ## Ausblick
 
 - GlobalPlatform: Security Domains, Lebenszyklus, SCP03
-- Übung 4: Transaktionen (`JCSystem.beginTransaction`) und Stromausfall
 - Echte Karten: CAP-Build mit [ant-javacard](https://github.com/martinpaljak/ant-javacard),
   Laden mit [GlobalPlatformPro](https://github.com/martinpaljak/GlobalPlatformPro)

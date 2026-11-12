@@ -127,9 +127,31 @@ verlinkten Dokumenten, Aufgaben unter [`aufgaben/`](../aufgaben/).
 
 ---
 
+## Übung 4 – Speicherarten und Transaktionen → [07-transaktionen.md](07-transaktionen.md)
+
+1. **Die Karte kann jederzeit stromlos werden, auch mitten im Code.** Kontaktlos ist das Alltag.
+2. **Drei Speicherarten:** persistent (überlebt alles), `CLEAR_ON_RESET` (bis Stromverlust),
+   `CLEAR_ON_DESELECT` (bis Applet-Wechsel).
+3. **Mehrere Schreibzugriffe ohne Schutz** führen bei Abbruch zu inkonsistenten Daten. In
+   der Börsen-Demo verschwanden 100 Einheiten.
+4. **Atomarität auf drei Wegen:** JCRE-Transaktion (Commit-Puffer, begrenzt, nicht
+   verschachtelbar), eigenes Undo-Journal (Reihenfolge: erst sichern, dann Flag) oder ein
+   einziger atomarer `Util.arrayCopy` eines im RAM vorbereiteten Datensatzes.
+5. **Transiente Daten sind nie Teil einer Transaktion.**
+6. **Der Simulator rollt nichts zurück.** Tearing-Sicherheit lässt sich nur auf echter
+   Hardware prüfen, typischerweise im Rahmen der Common-Criteria-Evaluierung.
+
+> Persistente Änderungen aus mehreren Schreibzugriffen müssen atomar sein, sonst hinterlässt
+> ein gezogener Stecker inkonsistente Daten. Transaktionen sind dafür das Werkzeug der
+> Plattform, ein einzelner atomarer Kopiervorgang oft das einfachste.
+
+---
+
 ## Querschnitt: Grenzen des Simulators
 
 - bildet Logik ab, keine physische Sicherheit
 - kein CAP, kein GP Card Manager, kein echter SCP03
 - **Zufall kaputt:** gleicher erster Schlüssel auf jeder „Karte“, Nonce = privater Schlüssel
 - PQC nur als Protokoll-Simulation mit externer Bibliothek
+- **Transaktionen ohne Wirkung:** kein Journal, kein Rollback, Commit-Kapazität ist ein Platzhalter
+- Le wird ignoriert, SELECT einer unbekannten AID liefert `6999`
