@@ -89,6 +89,10 @@ mise exec -- mvn test -Dtest='Uebung0*Aufgaben'
 | [aufgaben/uebung-07-transaktionen.md](aufgaben/uebung-07-transaktionen.md) | Übung 4 – Speicherarten und Transaktionen |
 | [aufgaben/uebung-08-globalplatform.md](aufgaben/uebung-08-globalplatform.md) | GlobalPlatform – Security Domains, Lebenszyklus, SCP03 |
 
+**Musterlösungen** liegen parallel im Paket `playground.loesungen.uebungNN` (gelöste Applet-Kopien
+und `UebungNNLoesungTest`). Sie laufen im normalen `mvn test` und in der CI mit, bleiben also
+nachweislich korrekt. Die Gerüste in `playground.aufgaben` bleiben unverändert.
+
 ## Grenzen des Simulators
 
 jCardSim bildet die **Logik** ab (APDUs, Statuswörter, persistent vs. transient, Krypto-API),

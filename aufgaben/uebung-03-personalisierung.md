@@ -32,6 +32,23 @@ Eine schlanke Kopie der Personalisierung **ohne K_SCRIPT**, damit nichts ablenkt
 mise exec -- mvn test -Dtest=Uebung03Aufgaben
 ```
 
+## Musterlösung
+
+Erst selbst versuchen! Die vollständige Lösung liegt im Paket `playground.loesungen.uebung03` und läuft im normalen Build (und in der CI) mit:
+
+| | Datei |
+|---|---|
+| Lösungstest | [`Uebung03LoesungTest.java`](../src/test/java/playground/loesungen/uebung03/Uebung03LoesungTest.java) |
+| | [`PersoLoesungApplet.java`](../src/main/java/playground/loesungen/uebung03/PersoLoesungApplet.java) |
+| | [`PersoOhneTagLoesungApplet.java`](../src/main/java/playground/loesungen/uebung03/PersoOhneTagLoesungApplet.java) |
+| | [`DataPreparationLoesung.java`](../src/test/java/playground/loesungen/uebung03/DataPreparationLoesung.java) |
+
+Aufgabe 3 wird mit beiden Varianten geprüft: mit Tag im MAC `6982`, ohne `9000`.
+
+```bash
+mise exec -- mvn test -Dtest=Uebung03LoesungTest
+```
+
 ---
 
 ## Aufgabe 1: Ablauf mit dem Debugger (20 Min.)

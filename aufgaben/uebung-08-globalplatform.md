@@ -28,6 +28,19 @@ mise exec -- mvn test -Dtest=GpCardTest
 mise exec -- mvn test -Dtest=Uebung08Aufgaben
 ```
 
+## Musterlösung
+
+Erst selbst versuchen! Die vollständige Lösung liegt im Paket `playground.loesungen.uebung08` und läuft im normalen Build (und in der CI) mit:
+
+| | Datei |
+|---|---|
+| Lösungstest | [`Uebung08LoesungTest.java`](../src/test/java/playground/loesungen/uebung08/Uebung08LoesungTest.java) |
+| | [`Scp03HostLoesung.java`](../src/test/java/playground/loesungen/uebung08/Scp03HostLoesung.java) |
+
+```bash
+mise exec -- mvn test -Dtest=Uebung08LoesungTest
+```
+
 ---
 
 ## Aufgabe 1: INITIALIZE UPDATE zerlegen (10 Min.)

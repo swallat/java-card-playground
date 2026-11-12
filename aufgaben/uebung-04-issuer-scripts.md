@@ -28,6 +28,21 @@ Host-Methode `IssuerHost.applicationBlock()`. Die Personalisierung erledigt `set
 mise exec -- mvn test -Dtest=Uebung04Aufgaben
 ```
 
+## Musterlösung
+
+Erst selbst versuchen! Die vollständige Lösung liegt im Paket `playground.loesungen.uebung04` und läuft im normalen Build (und in der CI) mit:
+
+| | Datei |
+|---|---|
+| Lösungstest | [`Uebung04LoesungTest.java`](../src/test/java/playground/loesungen/uebung04/Uebung04LoesungTest.java) |
+| | [`PersoScriptLoesungApplet.java`](../src/main/java/playground/loesungen/uebung04/PersoScriptLoesungApplet.java) |
+
+Die Lösung von Aufgabe 4 ist eine Kopie von `PersoApplet` mit APPLICATION BLOCK. Die Referenz bleibt das Gerüst.
+
+```bash
+mise exec -- mvn test -Dtest=Uebung04LoesungTest
+```
+
 ---
 
 ## Aufgabe 1: Skript-APDU zerlegen (10 Min.)

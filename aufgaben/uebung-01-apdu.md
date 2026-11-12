@@ -30,6 +30,22 @@ mise exec -- mvn test -Dtest=Uebung01Aufgaben
 mise exec -- mvn test -Dtest=Uebung01Aufgaben#aufgabe3_eigenesKommando
 ```
 
+## Musterlösung
+
+Erst selbst versuchen! Die vollständige Lösung liegt im Paket `playground.loesungen.uebung01` und läuft im normalen Build (und in der CI) mit:
+
+| | Datei |
+|---|---|
+| Lösungstest | [`Uebung01LoesungTest.java`](../src/test/java/playground/loesungen/uebung01/Uebung01LoesungTest.java) |
+| | [`HelloLoesungApplet.java`](../src/main/java/playground/loesungen/uebung01/HelloLoesungApplet.java) |
+| | [`HelloOhneSelectLoesungApplet.java`](../src/main/java/playground/loesungen/uebung01/HelloOhneSelectLoesungApplet.java) |
+
+Für Aufgabe 5 gibt es eine eigene Variante ohne `selectingApplet()`.
+
+```bash
+mise exec -- mvn test -Dtest=Uebung01LoesungTest
+```
+
 ---
 
 ## Aufgabe 1: Trace lesen (10 Min.)

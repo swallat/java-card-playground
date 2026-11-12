@@ -31,6 +31,20 @@ mise exec -- mvn test -Dtest=SignAppletTest
 mise exec -- mvn test -Dtest=Uebung05Aufgaben
 ```
 
+## Musterlösung
+
+Erst selbst versuchen! Die vollständige Lösung liegt im Paket `playground.loesungen.uebung05` und läuft im normalen Build (und in der CI) mit:
+
+| | Datei |
+|---|---|
+| Lösungstest | [`Uebung05LoesungTest.java`](../src/test/java/playground/loesungen/uebung05/Uebung05LoesungTest.java) |
+| | [`SignLoesungApplet.java`](../src/main/java/playground/loesungen/uebung05/SignLoesungApplet.java) |
+| | [`MiniCa.java`](../src/test/java/playground/loesungen/uebung05/MiniCa.java) |
+
+```bash
+mise exec -- mvn test -Dtest=Uebung05LoesungTest
+```
+
 ---
 
 ## Aufgabe 1: Öffentlichen Schlüssel und Signatur lesen (10 Min.)

@@ -27,6 +27,19 @@ die Karte neu (Reset + SELECT). `select()` ruft `recoverJournal()` auf, das ist 
 mise exec -- mvn test -Dtest=Uebung07Aufgaben
 ```
 
+## Musterlösung
+
+Erst selbst versuchen! Die vollständige Lösung liegt im Paket `playground.loesungen.uebung07` und läuft im normalen Build (und in der CI) mit:
+
+| | Datei |
+|---|---|
+| Lösungstest | [`Uebung07LoesungTest.java`](../src/test/java/playground/loesungen/uebung07/Uebung07LoesungTest.java) |
+| | [`TxLoesungApplet.java`](../src/main/java/playground/loesungen/uebung07/TxLoesungApplet.java) |
+
+```bash
+mise exec -- mvn test -Dtest=Uebung07LoesungTest
+```
+
 ---
 
 ## Aufgabe 1: Speicherarten vorhersagen (10 Min.)

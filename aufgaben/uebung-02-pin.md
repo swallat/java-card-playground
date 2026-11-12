@@ -27,6 +27,21 @@ Empfang und Längenprüfung. Du schreibst nur die Prüflogik. Aufgabe 1 geht von
 mise exec -- mvn test -Dtest=Uebung02Aufgaben
 ```
 
+## Musterlösung
+
+Erst selbst versuchen! Die vollständige Lösung liegt im Paket `playground.loesungen.uebung02` und läuft im normalen Build (und in der CI) mit:
+
+| | Datei |
+|---|---|
+| Lösungstest | [`Uebung02LoesungTest.java`](../src/test/java/playground/loesungen/uebung02/Uebung02LoesungTest.java) |
+| | [`PinLoesungApplet.java`](../src/main/java/playground/loesungen/uebung02/PinLoesungApplet.java) |
+
+Die Lösung nutzt `PIN_TRY_LIMIT = 5` (Aufgabe 2). Die Vorhersagen in Aufgabe 1 sind darauf angepasst.
+
+```bash
+mise exec -- mvn test -Dtest=Uebung02LoesungTest
+```
+
 ---
 
 ## Aufgabe 1: Statuswörter vorhersagen (10 Min.)

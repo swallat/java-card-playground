@@ -30,6 +30,20 @@ Aufgabe 4 stellst du direkt im Testbed ein (`A4_TEILGROESSE`).
 mise exec -- mvn test -Dtest=Uebung06Aufgaben
 ```
 
+## Musterlösung
+
+Erst selbst versuchen! Die vollständige Lösung liegt im Paket `playground.loesungen.uebung06` und läuft im normalen Build (und in der CI) mit:
+
+| | Datei |
+|---|---|
+| Lösungstest | [`Uebung06LoesungTest.java`](../src/test/java/playground/loesungen/uebung06/Uebung06LoesungTest.java) |
+
+Reine Vorhersage-Aufgaben: Die Lösung ist die ausgefüllte Prüfklasse.
+
+```bash
+mise exec -- mvn test -Dtest=Uebung06LoesungTest
+```
+
 ---
 
 ## Aufgabe 1: Extended-APDUs zerlegen (10 Min.)
