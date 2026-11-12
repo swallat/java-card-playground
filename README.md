@@ -53,6 +53,7 @@ Testcode (`src/test`) ist Host-Code und nutzt Java 11.
 
 | Dokument | Thema |
 |---|---|
+| [apdu-cheatsheet.md](apdu-cheatsheet.md) | alle APDUs, Statuswörter und AIDs auf einer Seite |
 | [docs/00-quintessenz.md](docs/00-quintessenz.md) | **Kernaussagen aller Übungen auf einen Blick** |
 | [docs/01-apdu-grundlagen.md](docs/01-apdu-grundlagen.md) | APDU, Cases 1–4, Statuswörter, AID/RID, Applet-Lebenszyklus, Code von Übung 1 |
 | [docs/02-pin-pruefung.md](docs/02-pin-pruefung.md) | VERIFY, OwnerPIN, Fehlbedienungszähler, persistent vs. transient, Speicherschutz |
