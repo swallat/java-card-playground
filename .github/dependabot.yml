@@ -1,0 +1,13 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: maven
+    directory: /
+    schedule:
+      interval: weekly
+    # BouncyCastle und JUnit aktuell halten; jCardSim ist ein Fork mit eigenem Release-Rhythmus
+    open-pull-requests-limit: 5

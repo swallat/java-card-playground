@@ -1,5 +1,7 @@
 # Java Card Playground
 
+[![CI](https://github.com/swallat/java-card-playground/actions/workflows/ci.yml/badge.svg)](https://github.com/swallat/java-card-playground/actions/workflows/ci.yml)
+
 Lernprojekt, um Java Card praktisch zu verstehen: APDU-Abläufe, PIN-Prüfung,
 Personalisierung, Verwaltung nach der Ausgabe sowie On-Card-Schlüsselerzeugung und Signatur.
 Alles läuft im Simulator [jCardSim](https://github.com/licel/jcardsim), es wird keine Hardware gebraucht.
@@ -113,6 +115,19 @@ statt des ISO-üblichen `6A82`.
 ungeseedeten Generator. Jede simulierte Karte bekommt denselben ersten Schlüssel, und eine
 einzige Signatur verrät den privaten Schlüssel. Details und Beweis in
 [docs/05-schluessel-und-signatur.md](docs/05-schluessel-und-signatur.md).
+
+## CI/CD
+
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml):
+
+- **CI** bei jedem Push auf `main` und jedem Pull Request: Toolchain aus `mise.toml` (wie lokal),
+  `mvn verify` mit allen Referenz- und Lösungstests, Testzusammenfassung im Run,
+  Testreports und JAR als Artefakte.
+- **CD** bei einem Tag `v*` (z. B. `git tag v1.0 && git push origin v1.0`): GitHub Release mit
+  JAR und Doku-Paket (README, Cheatsheet, `docs/`, `aufgaben/`).
+- **Dependabot** ([`.github/dependabot.yml`](.github/dependabot.yml)) prüft wöchentlich Actions und Maven-Abhängigkeiten.
+
+Nicht in der CI: der CAP-Build für echte Karten (braucht das Oracle Java Card SDK).
 
 ## Ausblick
 
