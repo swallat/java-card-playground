@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v7
 
       # Gleiche Toolchain wie lokal: JDK und Maven aus mise.toml
-      - uses: jdx/mise-action@v4
+      - uses: jdx/mise-action@v5
 
       - name: Maven-Cache
         uses: actions/cache@v6
